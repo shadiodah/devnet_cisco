@@ -1,0 +1,152 @@
+# Description:
+# Executes who command using the default command module on a Ubuntu server
+ansible 192.168.0.121 -i ./hosts  -m command -a "who" -u andrei -k
+
+
+# Description:
+# Executes "df -h" command and redirects the output to a file using the shell module on a Ubuntu server
+ansible 192.168.0.121 -i ./hosts  -m shell -a "df -h > space.txt" -u andrei -k
+
+
+# Description:
+# Executes "show version" command using the raw module on Cisco IOS
+ansible routers -i ./hosts -m raw -a "sh version" -u u1 -k
+
+# Description:
+# Executes "show version" command using the raw module on Cisco IOS, searches for "Software" and redirects output to file
+ansible routers -i ./hosts -m raw -a "sh version" -u u1 -k | grep "Software" > routers_ios.txt
+
+
+# Description:
+# Executes "ifconfig" command using the raw module on Linux and searches for "HWaddr
+ansible servers -i ./hosts -m raw -a "ifconfig" -u andrei -k | grep "HWaddr"
+
+
+# Description:
+# Retrieves information about Linux machines from servers group
+ansible -i ./hosts servers -m setup -u andrei -k
+
+
+# Description:
+# Creates a file on the Linux node and sets mode to 400 (r--------)
+$ansible -i ./hosts 192.168.0.121 -m file -a "path=/home/andrei/new.txt state=touch mode=400" -u andrei -k
+SSH password:
+192.168.0.121 | CHANGED => {
+    "changed": true,
+    "dest": "/home/andrei/new.txt",
+    "gid": 1003,
+    "group": "andrei",
+    "mode": "0400",
+    "owner": "andrei",
+    "size": 0,
+    "state": "file",
+    "uid": 1003
+}
+
+
+
+# Description:
+# Deletes the file on the Linux node (if exists)
+ansible -i ./hosts 192.168.0.121 -m file -a "path=/home/andrei/new.txt state=absent" -u andrei -k
+SSH password:
+192.168.0.121 | SUCCESS => {
+    "changed": false,
+    "path": "/home/andrei/new.txt",
+    "state": "absent"
+}
+
+
+# Description:
+# Creates a directory on the Linux node and sets mode to 755 (rwxr-xr-x)
+ansible -i ./hosts 192.168.0.121 -m file -a "path=/home/andrei/my-new-dir state=directory mode=755" -u andrei -k
+SSH password:
+192.168.0.121 | CHANGED => {
+    "changed": true,
+    "gid": 1003,
+    "group": "andrei",
+    "mode": "0755",
+    "owner": "andrei",
+    "path": "/home/andrei/my-new-dir",
+    "size": 4096,
+    "state": "directory",
+    "uid": 1003
+}
+
+
+
+
+# Description:
+# Copies a file on the remote node (both source and destination are on the remote node. See the remote_src=yes option)
+ansible 192.168.0.121 -m copy -a "src=/home/andrei/new.txt dest=/home/andrei/my-new-dir/file1.txt remote_src=yes" -u andrei -k
+SSH password:
+192.168.0.121 | CHANGED => {
+    "changed": true,
+    "checksum": "e0d752d317281ad5fcb8c71bcc9c7b1590a80a35",
+    "dest": "/home/andrei/my-new-dir/file1.txt",
+    "gid": 1003,
+    "group": "andrei",
+    "md5sum": "e6892b6c056e3e09f20ac8b5561b7e30",
+    "mode": "0664",
+    "owner": "andrei",
+    "size": 41,
+    "src": "/home/andrei/new.txt",
+    "state": "file",
+    "uid": 1003
+}
+
+
+# Description:
+# Copies a file from the Ansible controlling machine to the remote node
+ansible 192.168.0.121 -m copy -a "src=/home/andrei/lab/ansible/router1.txt dest=/home/andrei/my-new-dir/file1.txt" -u andrei -k
+SSH password:
+192.168.0.121 | CHANGED => {
+    "changed": true,
+    "checksum": "2e677f9a9f8b63cd0d18c24ec6cbbe55632081b7",
+    "dest": "/home/andrei/my-new-dir/file1.txt",
+    "gid": 1003,
+    "group": "andrei",
+    "md5sum": "7ca4e4642d8af8c530db2bdb1883efec",
+    "mode": "0664",
+    "owner": "andrei",
+    "size": 1447,
+    "src": "/home/andrei/.ansible/tmp/ansible-tmp-1543837420.42-79619171560006/source",
+    "state": "file",
+    "uid": 1003
+}
+
+
+
+# Description:
+# Installs a package named nginx (if it doesn't already exist)
+ansible 192.168.0.121 -i ./hosts -m apt -a "name=nginx state=present update_cache=true" -u andrei -k --become -K
+SSH password:
+SUDO password[defaults to SSH password]:
+192.168.0.121 | SUCCESS => {
+    "cache_update_time": 1543837550,
+    "cache_updated": true,
+    "changed": false
+}
+
+
+
+# Description:
+# Starts a service named nginx if not already started
+ansible 192.168.0.121 -i ./hosts -m service -a "name=nginx state=started" -u andrei -k --become -K
+SSH password:
+SUDO password[defaults to SSH password]:
+192.168.0.121 | SUCCESS => {
+    "changed": false,
+    "name": "nginx",
+    "state": "started",
+    "status": {
+        "ActiveEnterTimestamp": "Mon 2018-12-03 13:12:42 EET",
+        "ActiveEnterTimestampMonotonic": "27948164",
+        "ActiveExitTimestampMonotonic": "0",
+        "ActiveState": "active",
+        "After": "network.target systemd-journald.socket system.slice sysinit.target basic.target",
+        "AllowIsolate": "no",
+        "AmbientCapabilities": "0",
+        "AssertResult": "yes",
+...
+}
+

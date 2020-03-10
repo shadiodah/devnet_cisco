@@ -1,0 +1,108 @@
+---
+- name: Configuring Arista vEOS
+  gather_facts: no
+  hosts: arista1
+  connection: network_cli
+
+  tasks:
+    - name: Basic Arista Configuration
+      eos_config:
+        save_when: modified
+        lines:
+          - username u1 role network-admin secret  arista
+          - spanning-tree mode rapid-pvst
+          - vlan 10
+          - vlan 20
+      register: output
+    - name: Printing at the console
+      debug: var=output
+
+    - name: Settings Vlan Interfaces (Access Ports)
+      eos_config:
+        save_when: modified
+        parents: "interface {{ item.interface }}"
+        lines:
+          - switchport mode access
+          - "switchport access vlan {{ item.vlan }}"
+          - switchport port-security
+          - switchport port-security maximum 4
+          - switchport port-security violation shutdown
+      loop:
+        - { interface: Ethernet 3, vlan: 10}
+        - { interface: Ethernet 7, vlan: 10}
+        - { interface: Ethernet 4, vlan: 20}
+        - { interface: Ethernet 5, vlan: 20}
+        - { interface: Ethernet 6, vlan: 20}
+      register: output
+    - name: Printing at the console
+      debug: var=output
+
+
+    - name: Setting Trunks
+      eos_config:
+        save_when: modified
+        parents: "interface {{ item.interface }}"
+        lines:
+          - "switchport trunk allowed vlan {{ item.vlan }}"
+          - switchport mode trunk
+      loop:
+        - { interface: Ethernet 2, vlan: 10,20}
+
+      register: output
+    - name: Printing at the console
+      debug: var=output
+
+
+    - name: Setting SVI
+      eos_config:
+        save_when: modified
+        parents: "interface {{ item.interface }}"
+        lines:
+          - "ip address {{ item.ip }}"
+      loop:
+        - { interface: vlan 10, ip: 192.168.10.2/24 }
+        - { interface: vlan 20, ip: 192.168.20.2/24 }
+
+      register: output
+    - name: Printing at the console
+      debug: var=output
+
+
+
+    - name: Configure OSPF
+      eos_config:
+        save_when: modified
+        lines:
+          - network 0.0.0.0 0.0.0.0 area 0
+          - distance ospf intra-area 80
+          - default-information originate
+        parents: router ospf 1
+      register: output
+
+    - name: Printing at the console
+      debug: var=output
+
+
+- name: Configuring Cisco IOS Devices
+  gather_facts: no
+  hosts: cisco1
+  connection: network_cli
+
+  tasks:
+    - name: Configure OSPF
+      ios_config:
+        save_when: modified
+        lines:
+          - network 0.0.0.0 0.0.0.0 area 0
+          - distance 50
+          - default-information originate
+        parents: router ospf 1
+      register: output
+
+    - name: Printing at the console
+      debug: var=output
+...
+
+
+# Command to run:
+# ansible-playbook -i ./inventory_arista ./arista_eos_config2.yaml

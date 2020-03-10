@@ -1,0 +1,3 @@
+cisco_ios:10.10.10.5:admin:cisco:f0/1
+arista_eos:10.10.10.8:admin:arista:e1
+arista_eos:10.10.10.9:admin:arista:e1

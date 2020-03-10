@@ -1,0 +1,32 @@
+---
+- name: Running show commands on Cisco IOS
+  hosts: router1
+  gather_facts: no
+  connection: local
+
+  vars:  #playbook keyword (dictionary of variables)
+    login:
+      username: u1
+      password: cisco
+      auth_pass: cisco
+      authorize: true
+
+  tasks:
+    - name: Run multiple commands on Cisco IOS nodes
+      ios_command:
+        provider: "{{login}}"
+        commands:
+          - show run
+
+      register: print_output
+
+    -  debug: var=print_output.stdout_lines
+
+
+
+# Description:
+# Old method prior to ansible 2.5 using connection: local instead of connection: network_cli.
+
+# Command to run:
+# ansible-playbook -i ./hosts ./ios_command_local_with_vars_and_provider.yaml
+# both hosts and yaml files are in the current working directory

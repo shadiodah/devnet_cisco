@@ -1,0 +1,26 @@
+- name: Run a Loop, Create Multiple Users
+  hosts: server1
+  gather_facts: no
+  become: yes
+  become_user: root
+  connection: ssh
+ # vars:
+ #  new_users:
+ #    - u1
+ #    - u2
+ #    - u3
+  tasks:
+    - name: Add users using a loop
+      user:
+        name: "{{ item.name }}"
+        state: present
+        #state: absent
+        groups: "{{ item.groups }}"
+      loop:
+        - { name: "testuser1", groups: "sudo" }
+        - { name: "testuser2", groups: "wheel" }
+...
+
+
+# Command to run:
+# ansible-playbook -i ./inventory_linux ./linux_loops.yaml

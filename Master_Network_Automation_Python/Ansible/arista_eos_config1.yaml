@@ -1,0 +1,23 @@
+---
+- name: Configuring Arista vEOS
+  gather_facts: no
+  hosts: arista1
+  connection: network_cli
+
+  tasks:
+    - name: Interface Settings
+      eos_config:
+      #  save_when: modified
+        parents: "interface {{ item.interface }}"
+        lines:
+          - switchport access vlan 10
+
+      loop:
+        - { interface: ethernet 3}
+
+
+
+
+...
+# Command to run:
+# ansible-playbook -i ./inventory_arista arista_eos_config1.yaml

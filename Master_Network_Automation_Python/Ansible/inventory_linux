@@ -1,0 +1,45 @@
+[routers]
+router1 ansible_host=192.168.122.10
+router2 ansible_host=192.168.122.11 ansible_become_pass=python
+router3 ansible_host=192.168.122.12
+router4 ansible_host=192.168.122.13
+router5 ansible_host=192.168.122.14
+
+
+
+[routers:vars]
+ansible_network_os=ios
+ansible_user=u1
+ansible_ssh_pass=cisco
+ansible_become=yes
+ansible_become_method=enable
+ansible_become_pass=cisco
+
+[all:vars]
+ansible_port=22
+
+
+[arista]
+arista1 ansible_host=192.168.122.10
+arista2 ansible_host=192.168.122.20
+
+[arista:vars]
+ansible_network_os=eos
+ansible_user=admin
+ansible_ssh_pass=arista
+ansible_become=yes
+ansible_become_method=enable
+ansible_become_pass=arista
+
+
+[servers]
+server1 ansible_host=192.168.0.134
+server2 ansible_host=192.168.0.121
+
+
+[servers:vars]
+ansible_user=andrei
+ansible_ssh_pass=test1234
+ansible_become=yes
+ansible_become_method=sudo
+ansible_become_pass=test1234

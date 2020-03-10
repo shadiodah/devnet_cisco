@@ -1,0 +1,22 @@
+[routers]
+router1
+192.168.122.11 ansible_become_pass=python
+192.168.122.12
+192.168.122.13
+192.168.122.14 ansible_host=192.168.122.11 ansible_user=u1 ansible_ssh_pass=cisco ansible_become=yes ansible_become_method=enable ansible_become_password=cisco
+
+
+[routers:vars]
+ansible_user=u1
+ansible_ssh_pass=cisco
+ansible_become=yes
+ansible_become_method=enable
+ansible_become_pass=cisco
+ansible_network_os=ios
+
+[all:vars]
+ansible_port=22
+
+[servers]
+192.168.0.134
+192.168.0.121

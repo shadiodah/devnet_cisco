@@ -1,0 +1,25 @@
+---
+- name: Running show commands on Cisco IOS
+  hosts: router1
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: Run multiple commands on Cisco IOS nodes
+      ios_command:
+        commands:
+          - show version
+          - show ip int brief
+
+      register: output
+
+    - debug: var=output.stdout_lines
+
+
+
+# Description:
+# Old method  prior to ansible 2.5 using connection: local instead of connection: network_cli.
+
+# Command to run:
+# ansible-playbook -i ./hosts ./ios_command_local.yaml  -u u1 -k
+# both hosts and yaml files are in the current working directory

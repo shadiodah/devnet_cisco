@@ -1,0 +1,34 @@
+---
+- name: Running show commands on Cisco IOS
+  hosts: router2
+  gather_facts: no
+  connection: network_cli
+ # become: yes
+ # become_method: enable
+  #
+  #  vars:
+  #    #ansible_host: 192.168.122.10
+  #    ansible_become: yes
+  #    ansible_become_method: enable
+  #    ansible_user: u1
+  #    ansible_ssh_pass: cisco
+  #    ansible_become_pass: cisco
+  #    ansible_network_os: ios
+
+  tasks:
+    - name: Run a priviledged show command on Cisco IOS nodes
+      ios_command:
+        commands:
+          - show run
+      register: print_output
+
+    - debug: var=print_output.stdout_lines
+...
+# Description:
+# Run privileged (enabled) commands (sh run) using ios_command module from the command line
+# http://docs.ansible.com/ansible/latest/ios_command_module.html
+
+# Command to run:
+# ansible-playbook -i ./hosts2 ./ios_command_behavioral_inventory_parameters2.yaml
+
+

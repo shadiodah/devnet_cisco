@@ -1,0 +1,23 @@
+---
+- name: Configuring Cisco IOS Devices
+  gather_facts: no
+  hosts: routers
+  connection: network_cli
+
+  tasks:
+    - name: Configure OSPF
+      ios_config:
+        save_when: modified
+        lines:
+          - network 0.0.0.0 0.0.0.0 area 0
+          - distance 50
+          - default-information originate
+        parents: router ospf 1
+      register: output
+
+    - name: Printing at the console
+      debug: var=output
+...
+# Command to run:
+# ansible-playbook -i ./inventory_vault ansible_vault.yaml --ask-vault-pass -e@./vault.yaml
+# inventory_vault, ansible_vault.yaml and vault.yaml are in the same directory

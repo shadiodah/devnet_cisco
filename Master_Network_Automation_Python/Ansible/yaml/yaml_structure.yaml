@@ -1,0 +1,60 @@
+---
+#this is comment
+#simple key: value pairs 
+name: John #space after colon
+age: 30 
+location: London
+
+
+#list
+os: 
+- linux
+- windows
+- mac
+
+programming:
+- java
+- python
+- c++
+
+
+#dictionary/map 
+USA: #same indentation is mandatory
+  population: 325 million #space after colon is mandatory
+  location: North America #key: value
+  capital: Washington, D.C.
+  
+Germany:
+  population: 83 million
+  location: Europe
+  capital: Berlin
+  
+  
+  
+#list of dictionaries, every list element is a different dictionary
+vehicles:
+#1st list element
+ - type: Car #key value pair
+   color: red
+   model: #dictionary
+     brand: Ford
+     type: Focus
+   year: 2010
+   price: 14000
+   fuel: Diesel
+
+#2nd list element
+ - type: Motorcycle #key value pair
+   color: black
+   model: #dictionary
+     brand: Honda
+     type: NC750X
+   year: 2018
+   price: 10000
+   fuel: Petrol
+   features: #nested list
+     - a
+     - b
+     - c
+     - d
+...

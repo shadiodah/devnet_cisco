@@ -1,0 +1,5 @@
+CoreDevice:78.1.1.1:root:RPass67644@--
+CentralRouter:8.1.1.1:myadmin:67Jdhhdd-+
+AccessSwitch1:78.1.2.2:admin:hPass67644@++
+Server1:10.0.0.1:admin:xsdHD3355
+Router1:90.0.0.1:u1:jpfajJdd67

@@ -1,0 +1,12 @@
+<root>
+<Devices>
+    <vendor>Cisco</vendor>
+    <os>IOS XR</os>
+    <ram>1024</ram>
+</Devices>
+<Devices>
+    <vendor>Arista</vendor>
+    <os>vEOS</os>
+    <ram>2048</ram>
+</Devices>
+</root>

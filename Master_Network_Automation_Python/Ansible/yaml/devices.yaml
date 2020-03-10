@@ -1,0 +1,9 @@
+---
+Devices:
+  - vendor: Cisco
+    os: IOS XR
+    ram: 1024
+  - vendor: Arista
+    os: vEOS
+    ram: 2048
+...

@@ -1,0 +1,24 @@
+---
+- name: Configuring Arista vEOS Devices
+  gather_facts: no
+  hosts: arista
+  connection: network_cli
+
+  tasks:
+    - name: Basic Arista Configuration
+      eos_config:
+        save_when: modified
+        lines:
+          - username u1 role network-admin secret arista
+          - spanning-tree mode rapid-pvst
+          - vlan 10
+          - vlan 20
+
+      register: output
+
+    - name: Printing at the console
+      debug: var=output
+...
+
+# Command to run:
+# ansible-playbook -i ./inventory_arista ./arista_eos_config.yaml

@@ -1,0 +1,28 @@
+---
+- name: Running show commands on Cisco IOS and save output to file
+  hosts: routers
+  gather_facts: false
+  connection: network_cli
+
+  tasks:
+    - name: Run multiple commands on Cisco IOS nodes
+      ios_command:
+        commands:
+          - show version
+
+      register: my_config
+
+    - name: Save output to file on disk
+      copy:
+          content: "{{ my_config.stdout[0] }}"
+          dest: "/home/andrei/lab/ansible/{{inventory_hostname}}.txt"
+
+...
+
+# Description:
+# Run show commands using ios_command module and save the output to a file on disk
+# http://docs.ansible.com/ansible/latest/ios_command_module.html
+
+# Command to run:
+# ansible-playbook -i ./hosts ./ios_command_save_to_file.yaml -u u1 -k
+# both hosts and yaml file are in the current working directory

@@ -1,0 +1,2 @@
+cisco_ios:10.10.10.5:admin:cisco
+cisco_ios:10.10.10.6:admin:cisco
