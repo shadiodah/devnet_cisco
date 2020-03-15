@@ -3,7 +3,7 @@ import sys
 
 def login(vmanage_ip, username, password):
         """Login to vmanage"""
-        base_url_str = 'https://%s:8443/'%vmanage_ip
+        base_url_str = f'https://{vmanage_ip}:8443/'
 
         login_action = '/j_security_check'
 
